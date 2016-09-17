@@ -1,7 +1,15 @@
 class Post extends React.Component {
   render(){
+    const { name, text } = this.props.data
     return(
-      <div>hello</div>
+      <div>
+        <div>
+          {name}
+        </div>
+        <div>
+          {text}
+        </div>
+      </div>
     )
   }
 }
