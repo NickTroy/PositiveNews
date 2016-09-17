@@ -18,6 +18,7 @@ gem 'therubyracer', platforms: :ruby
 
 gem 'devise'
 gem 'twitter-bootstrap-rails'
+gem 'react-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
