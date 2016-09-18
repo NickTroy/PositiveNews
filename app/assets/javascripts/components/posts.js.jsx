@@ -4,7 +4,8 @@ class Posts extends React.Component {
     this.state = {
       posts: props.posts,
       editorMode: false,
-      showForm: false
+      showForm: false,
+      goodNewsMode: false
     }
   }
   componentDidMount(){
@@ -54,32 +55,62 @@ class Posts extends React.Component {
     })
   }
 
-  changeMode(){
+  changeReadingMode(){
     this.setState({ editorMode: !this.state.editorMode })
   }
 
+  changeNewsMode(){
+    this.setState({ goodNewsMode: !this.state.goodNewsMode })
+  }
+
   render(){
-    const { posts, editorMode } = this.state
+    const { posts, editorMode, goodNewsMode } = this.state
     let postsRows = []
     posts.forEach( (post) => {
-      postsRows.push(<Post data={post} key={post.id} likePost={this.likePost.bind(this)} dislikePost={this.dislikePost.bind(this)}/>)
+      let { likes_count, dislikes_count } = post
+      let postIsGood = true
+      if (likes_count + dislikes_count !== 0) {
+        postIsGood = parseFloat(likes_count) / (likes_count + dislikes_count) >= 0.8
+      }
+      if (goodNewsMode) {
+        if (postIsGood) {
+          postsRows.push(<Post data={post} key={post.id} likePost={this.likePost.bind(this)} dislikePost={this.dislikePost.bind(this)}/>)
+        }
+      } else {
+        postsRows.push(<Post data={post} key={post.id} likePost={this.likePost.bind(this)} dislikePost={this.dislikePost.bind(this)}/>)
+      }
     })
     return(
       <div className='container'>
-          {
-            editorMode
-            ? <div className='posts-actions'>
-                <button className='btn btn-info' onClick={this.changeMode.bind(this)}>
-                  Reader Mode
-                </button>
-                <Form handleAddPost={this.addPost.bind(this)}/>
-              </div>
-            : <div className='posts-actions'>
-                <button className='btn btn-info' onClick={this.changeMode.bind(this)}>
-                  Editor Mode
-                </button>
-              </div>
-          }
+        <div className='posts-actions'>
+        {
+          goodNewsMode
+          ? <div className='news-actions'>
+              <button className='btn btn-info' onClick={this.changeNewsMode.bind(this)}>
+                All News Mode
+              </button>
+            </div>
+          : <div className='news-actions'>
+              <button className='btn btn-info' onClick={this.changeNewsMode.bind(this)}>
+                Good News Mode
+              </button>
+            </div>
+        }
+        {
+          editorMode
+          ? <div className='reader-actions'>
+              <button className='btn btn-info' onClick={this.changeReadingMode.bind(this)}>
+                Reader Mode
+              </button>
+              <Form handleAddPost={this.addPost.bind(this)}/>
+            </div>
+          : <div className='reader-actions'>
+              <button className='btn btn-info' onClick={this.changeReadingMode.bind(this)}>
+                Editor Mode
+              </button>
+            </div>
+        }
+        </div>
         <div className='posts-container'>
           {postsRows}
         </div>
