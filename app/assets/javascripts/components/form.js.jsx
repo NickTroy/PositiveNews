@@ -9,6 +9,10 @@ class Form extends React.Component {
     }
   }
 
+  componentDidMount(){
+    this.refs.simple.click()
+  }
+
   onFieldChange(fieldName, e) {
     if (e.target.value.trim().length > 0) {
       this.setState({[fieldName]:false})
@@ -31,7 +35,20 @@ class Form extends React.Component {
       const name = this.refs.name.value
       const text = this.refs.text.value
       const image = this.refs.image.value
-      alert(name)
+      const data = {
+        post: { name, text, kind }
+      }
+      $.ajax({
+        url: '/posts',
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: (response) => {
+          this.props.handleAddPost(response)
+          this.refs.name.value = ''
+          this.refs.text.value = ''
+        }
+      })
     }
   }
 

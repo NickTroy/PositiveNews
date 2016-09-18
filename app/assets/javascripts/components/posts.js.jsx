@@ -7,6 +7,13 @@ class Posts extends React.Component {
       showForm: false
     }
   }
+  addPost(post){
+    const { name, text, userId, id } = post
+    const { posts } = this.state
+    this.setState({
+      posts: [post].concat(posts)
+    })
+  }
 
   changeMode(){
     this.setState({ editorMode: !this.state.editorMode })
@@ -26,7 +33,7 @@ class Posts extends React.Component {
                 <button className='btn btn-info' onClick={this.changeMode.bind(this)}>
                   Reader Mode
                 </button>
-                <Form />
+                <Form handleAddPost={this.addPost.bind(this)}/>
               </div>
             : <div className='posts-actions'>
                 <button className='btn btn-info' onClick={this.changeMode.bind(this)}>

@@ -22,6 +22,9 @@ class Post extends React.Component {
     if (interval > 1) {
       return interval + " minutes"
     }
+    if (interval == 0) {
+      return "some seconds"
+    }
     return Math.floor(seconds) + " seconds"
   }
 
