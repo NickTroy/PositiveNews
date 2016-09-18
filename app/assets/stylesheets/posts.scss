@@ -1,6 +1,9 @@
 // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.post-container {
+  margin-bottom: 40px;
+}
 .post-name {
 	border: 1px solid lightblue;
 	border-radius: 5px;
@@ -23,4 +26,13 @@
 
 .post-form-container .form-group {
   text-align: left;
+}
+
+.fa-thumbs-o-up, .fa-thumbs-o-up {
+  cursor: pointer;
+}
+
+.user-attitude {
+	text-align: right;
+	margin-right: 100px;
 }

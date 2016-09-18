@@ -3,29 +3,29 @@ class Post extends React.Component {
   timeAgo(miliseconds) {
     let seconds = Math.floor((new Date().getTime() - miliseconds) / 1000)
     let interval = Math.floor(seconds / 31536000)
-    if (interval > 1) {
-      return interval + " years"
+    if (interval >= 1) {
+      return interval + " year(s)"
     }
     interval = Math.floor(seconds / 2592000)
-    if (interval > 1) {
-    return interval + " months"
+    if (interval >= 1) {
+    return interval + " month(es)"
     }
     interval = Math.floor(seconds / 86400)
-    if (interval > 1) {
-      return interval + " days"
+    if (interval >= 1) {
+      return interval + " day(s)"
     }
     interval = Math.floor(seconds / 3600)
-    if (interval > 1) {
-      return interval + " hours"
+    if (interval >= 1) {
+      return interval + " hour(s)"
     }
     interval = Math.floor(seconds / 60)
-    if (interval > 1) {
-      return interval + " minutes"
+    if (interval >= 1) {
+      return interval + " minute(s)"
     }
-    if (interval == 0) {
+    if (interval === 0) {
       return "some seconds"
     }
-    return Math.floor(seconds) + " seconds"
+    return Math.floor(seconds) + " second(s)"
   }
 
   handleLike(){
@@ -76,10 +76,17 @@ class Post extends React.Component {
             {text}
           </div>
           <div className='user-attitude'>
-            <i className="fa fa-thumbs-o-up" aria-hidden="true" onClick={this.handleLike.bind(this)}></i>
-            <span className='likes-count'>{likes_count}</span>
-            <i className="fa fa-thumbs-o-down" aria-hidden="true" onClick={this.handleDislike.bind(this)}></i>
-            <span className='dislikes-count'>{dislikes_count}</span>
+            <span className='likes'>
+              <i className="fa fa-thumbs-o-up" aria-hidden="true" onClick={this.handleLike.bind(this)}></i>
+              &nbsp;
+              <span className='likes-count'>{likes_count}</span>
+            </span>
+            &nbsp;
+            <span className='dislikes'>
+              <i className="fa fa-thumbs-o-down" aria-hidden="true" onClick={this.handleDislike.bind(this)}></i>
+              &nbsp;
+              <span className='dislikes-count'>{dislikes_count}</span>
+            </span>
           </div>
         </div>
       </div>
