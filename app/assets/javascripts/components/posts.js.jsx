@@ -102,13 +102,18 @@ class Posts extends React.Component {
               <button className='btn btn-info' onClick={this.changeReadingMode.bind(this)}>
                 Reader Mode
               </button>
-              <Form handleAddPost={this.addPost.bind(this)}/>
+
             </div>
           : <div className='reader-actions'>
               <button className='btn btn-info' onClick={this.changeReadingMode.bind(this)}>
                 Editor Mode
               </button>
             </div>
+        }
+        {
+          editorMode
+          ? <Form handleAddPost={this.addPost.bind(this)}/>
+          : null
         }
         </div>
         <div className='posts-container'>

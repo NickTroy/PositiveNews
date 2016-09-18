@@ -11,7 +11,6 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.new(post_params)
     if @post.save
-      binding.pry
       render 'posts/_show.json.jbuilder', status: 201
     end
   end

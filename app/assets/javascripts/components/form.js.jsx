@@ -14,7 +14,7 @@ class Form extends React.Component {
   }
 
   validateUrl(){
-    const url = this.refs.url.value
+    const url = this.refs.urlValue.value
     const valid = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url)
     this.setState({urlIsInvalid: !(valid)})
   }
@@ -50,11 +50,12 @@ class Form extends React.Component {
         data: data,
         success: (response) => {
           this.props.handleAddPost(response)
-          this.refs.url.value = ''
+          this.refs.name.value = ''
+          this.refs.text.value = ''
         }
       })
     } else {
-      const url = this.refs.url.value
+      const url = this.refs.urlValue.value
       const data = {
         post: { url, kind }
       }
@@ -65,9 +66,7 @@ class Form extends React.Component {
         data: data,
         success: (response) => {
           this.props.handleAddPost(response)
-          this.refs.name.value = ''
-          this.refs.text.value = ''
-          this.refs.url.value = ''
+          this.refs.urlValue.value = ''
         }
       })
     }
@@ -102,7 +101,7 @@ class Form extends React.Component {
           : <div className='url-form'>
               <div className='form-group'>
                 <label>URL:</label>
-                <input type='text' className='form-control' ref="url" onChange={this.validateUrl.bind(this)} />
+                <input type='text' className='form-control' ref="urlValue" onChange={this.validateUrl.bind(this)} />
               </div>
             </div>
         }

@@ -95,7 +95,32 @@ class Post extends React.Component {
       )
     } else {
       postTemplate = (
-        <iframe src={url} />
+        <div className='url-post-container'>
+          <div className='post-header'>
+            <div className='post-name text-center'>
+              {url}
+            </div>
+            <div className='posted-by pull-right'>
+              posted by
+              <span className='post-author-name'> {userName} </span>
+              <span className='post-data'>{timeAgo} ago</span>
+            </div>
+          </div>
+          <iframe className='url-post-iframe' src={url} width='90%' height='600px' />
+          <div className='user-attitude'>
+            <span className='likes'>
+              <i className="fa fa-thumbs-o-up" aria-hidden="true" onClick={this.handleLike.bind(this)}></i>
+              &nbsp;
+              <span className='likes-count'>{likes_count}</span>
+            </span>
+            &nbsp;
+            <span className='dislikes'>
+              <i className="fa fa-thumbs-o-down" aria-hidden="true" onClick={this.handleDislike.bind(this)}></i>
+              &nbsp;
+              <span className='dislikes-count'>{dislikes_count}</span>
+            </span>
+          </div>
+        </div>
       )
     }
     return(
