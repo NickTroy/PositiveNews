@@ -28,9 +28,32 @@ class Post extends React.Component {
     return Math.floor(seconds) + " seconds"
   }
 
+  handleLike(){
+    const { id } = this.props.data
+    $.ajax({
+      url: `/posts/${id}/like`,
+      type: 'PUT',
+      dataType: 'json',
+      success: (response) => {
+        this.props.likePost(response)
+      }
+    })
+  }
+
+  handleDislike(){
+    const { id } = this.props.data
+    $.ajax({
+      url: `/posts/${id}/dislike`,
+      type: 'PUT',
+      dataType: 'json',
+      success: (response) => {
+        this.props.likePost(response)
+      }
+    })
+  }
 
   render(){
-    const { name, text, created_at } = this.props.data
+    const { name, text, created_at, likes_count, dislikes_count } = this.props.data
     const userName = this.props.data.user.name
     const timeAgo = this.timeAgo(created_at)
     return(
@@ -51,6 +74,12 @@ class Post extends React.Component {
           </div>
           <div className='post-text'>
             {text}
+          </div>
+          <div className='user-attitude'>
+            <i className="fa fa-thumbs-o-up" aria-hidden="true" onClick={this.handleLike.bind(this)}></i>
+            <span className='likes-count'>{likes_count}</span>
+            <i className="fa fa-thumbs-o-down" aria-hidden="true" onClick={this.handleDislike.bind(this)}></i>
+            <span className='dislikes-count'>{dislikes_count}</span>
           </div>
         </div>
       </div>

@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918130404) do
+ActiveRecord::Schema.define(version: 20160918165152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "dislikes", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_dislikes_on_post_id", using: :btree
+    t.index ["user_id"], name: "index_dislikes_on_user_id", using: :btree
+  end
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -52,6 +61,8 @@ ActiveRecord::Schema.define(version: 20160918130404) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "dislikes", "posts"
+  add_foreign_key "dislikes", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"
