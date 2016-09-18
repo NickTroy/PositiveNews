@@ -5,7 +5,7 @@ class Form extends React.Component {
       kind: "simple",
       nameIsEmpty: true,
       textIsEmpty: true,
-      urlIsEmpty: true
+      urlIsInvalid: true
     }
   }
 
@@ -13,6 +13,11 @@ class Form extends React.Component {
     this.refs.simple.click()
   }
 
+  validateUrl(){
+    const url = this.refs.url.value
+    const valid = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url)
+    this.setState({urlIsInvalid: !(valid)})
+  }
   onFieldChange(fieldName, e) {
     if (e.target.value.trim().length > 0) {
       this.setState({[fieldName]:false})
@@ -45,15 +50,31 @@ class Form extends React.Component {
         data: data,
         success: (response) => {
           this.props.handleAddPost(response)
+          this.refs.url.value = ''
+        }
+      })
+    } else {
+      const url = this.refs.url.value
+      const data = {
+        post: { url, kind }
+      }
+      $.ajax({
+        url: '/posts',
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: (response) => {
+          this.props.handleAddPost(response)
           this.refs.name.value = ''
           this.refs.text.value = ''
+          this.refs.url.value = ''
         }
       })
     }
   }
 
   render(){
-    const { kind, nameIsEmpty, textIsEmpty, urlIsEmpty } = this.state
+    const { kind, nameIsEmpty, textIsEmpty, urlIsInvalid } = this.state
     return(
       <div className='post-form-container'>
         <div className='kind-choice'>
@@ -79,10 +100,13 @@ class Form extends React.Component {
               </div>
             </div>
           : <div className='url-form'>
-              enter url
+              <div className='form-group'>
+                <label>URL:</label>
+                <input type='text' className='form-control' ref="url" onChange={this.validateUrl.bind(this)} />
+              </div>
             </div>
         }
-        <button className="btn btn-success" onClick={this.handleSubmit.bind(this)} disabled={ kind == 'simple' ? nameIsEmpty || textIsEmpty : urlIsEmpty}>
+        <button className="btn btn-success" onClick={this.handleSubmit.bind(this)} disabled={ kind == 'simple' ? nameIsEmpty || textIsEmpty : urlIsInvalid}>
           Submit Post
         </button>
       </div>
