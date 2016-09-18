@@ -7,6 +7,19 @@ class Posts extends React.Component {
       showForm: false
     }
   }
+  componentDidMount(){
+    setInterval(this.fetchPosts.bind(this), 20000)
+  }
+  fetchPosts(){
+    $.ajax({
+      url: '/posts',
+      method: 'GET',
+      dataType: 'json',
+      success: (data) => {
+        this.setState({posts: data.posts});
+      }
+    })
+  }
   addPost(post){
     const { name, text, userId, id, likes_count } = post
     const { posts } = this.state

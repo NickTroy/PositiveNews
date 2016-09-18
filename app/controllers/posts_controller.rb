@@ -1,6 +1,11 @@
 class PostsController < ApplicationController
   def index
     @posts = Post.all.includes(:likes).order('created_at DESC')
+
+    respond_to do |format|
+      format.html
+      format.json { render 'posts/_index.json.jbuilder', status: 200 }
+    end
   end
 
   def create
