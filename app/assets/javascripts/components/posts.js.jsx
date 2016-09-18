@@ -3,7 +3,8 @@ class Posts extends React.Component {
     super(props)
     this.state = {
       posts: props.posts,
-      editorMode: false
+      editorMode: false,
+      showForm: false
     }
   }
 
@@ -22,12 +23,10 @@ class Posts extends React.Component {
           {
             editorMode
             ? <div className='posts-actions'>
-                <button>
-                  Add new post
-                </button>
                 <button className='btn btn-info' onClick={this.changeMode.bind(this)}>
                   Reader Mode
                 </button>
+                <Form />
               </div>
             : <div className='posts-actions'>
                 <button className='btn btn-info' onClick={this.changeMode.bind(this)}>
