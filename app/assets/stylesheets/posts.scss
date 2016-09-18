@@ -1,3 +1,22 @@
 // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.post-name {
+	border: 1px solid lightblue;
+	border-radius: 5px;
+	background: aliceblue;
+  display: inline-block;
+  width: 70%;
+}
+.posted-by {
+  display: inline-block;
+  width: 20%;
+}
+
+
+.post-text {
+  text-align: left;
+  border-left: 1px solid lightgray;
+  padding: 20px;
+  margin: 20px 0px;
+}
