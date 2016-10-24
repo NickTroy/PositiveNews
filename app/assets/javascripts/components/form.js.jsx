@@ -39,7 +39,6 @@ class Form extends React.Component {
     if (kind == "simple") {
       const name = this.refs.name.value
       const text = this.refs.text.value
-      const image = this.refs.image.value
       const data = {
         post: { name, text, kind }
       }
@@ -91,11 +90,6 @@ class Form extends React.Component {
               <div className='form-group'>
                 <label>Text:</label>
                 <textarea className='form-control' ref="text" defaultValue="" onChange={this.onFieldChange.bind(this, 'textIsEmpty')}/>
-              </div>
-
-              <div className='form-group'>
-                <label>Image:</label>
-                <input type='file' ref="image" />
               </div>
             </div>
           : <div className='url-form'>
